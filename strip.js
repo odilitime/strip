@@ -130,6 +130,7 @@ function charset2homophones(charset, max) {
   }
   var used = 0
   var reduce_me = []
+  // assign a number of slots for each character in set
   for(var i in noDupeCharset) {
     var l = noDupeCharset[i]
     var freq = frequency[l]
@@ -149,17 +150,18 @@ function charset2homophones(charset, max) {
   var i = 0
   var last = 0
   var l2h_map = {}
+  // enumerate each slot until all slots asked for are consumed
   while(reduce_me.length) {
-    var l = reduce_me[i][0]
-    reduce_me[i][1]--
-    if (!reduce_me[i][1]) {
-      reduce_me.splice(i, 1)
-    }
+    var l = reduce_me[i][0] // get character
     if (l2h_map[l] === undefined) l2h_map[l] = []
-    l2h_map[l].push(last)
-    last++
-    i++
-    if (i >= reduce_me.length) i = 0
+    l2h_map[l].push(last) // enumerate value
+    last++ // increase value
+    reduce_me[i][1]-- // mark slot as used
+    if (!reduce_me[i][1]) {
+      reduce_me.splice(i, 1) // mark character as all slots are consumed
+    }
+    i++ // go to next character
+    if (i >= reduce_me.length) i = 0 // if at end then start over at beginning
   }
   console.log('used', last, '/', used, '/', max)
   return l2h_map
