@@ -1,9 +1,9 @@
 const language_frequency = require('./lib/frequency_en.js')
 const charset2homophones = require('./lib/generator.js')
-const encrypt = require('./lib/encrypt.js')
-const decrypt = require('./lib/decrypt.js')
+const encrypt            = require('./lib/encrypt.js')
+const decrypt            = require('./lib/decrypt.js')
 
-var our_charset = [
+var our_charset          = [
   'a',
   'b',
   'c',
@@ -106,7 +106,7 @@ var our_charset = [
 
 var homophones = charset2homophones(language_frequency, our_charset, 394)
 console.dir(homophones)
-var test = encrypt('The job requires extra pluck and zeal from every young wage earner. ', homophones)
+var test       = encrypt('The job requires extra pluck and zeal from every young wage earner. ', homophones)
 console.log(test)
-var result = decrypt(test, homophones)
+var result     = decrypt(test, homophones)
 console.log(result.join(""))
