@@ -7,7 +7,7 @@ Make your key (range defaults to 394)
 `# node makeKey.js [range] > key`
 
 Use the key to encode your message
-`# node encrypt.js key "this is my messsage" > msg`
+`# node encrypt.js key "this is my message" > msg`
 
 Use the key to decode your message
 `# node decrypt.js key < msg`
@@ -17,7 +17,7 @@ Use message and the plain text equivalent to try to reverse the key
 
 ## API
 
-charset2homophones(frequnecy set, character set, range of result homophone symbols) returns a letter to homephone mapping
+charset2homophones(frequency set, character set, range of result homophone symbols) returns a letter to homephone mapping
 
 encrypt(message, letter to homophones map) returns an array of all homophones
 
