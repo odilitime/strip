@@ -17,7 +17,7 @@ Use message and the plain text equivalent to try to reverse the key
 
 ## API
 
-charset2homophones(character set, range of result homophone symbols) returns a letter to homephone mapping
+charset2homophones(frequnecy set, character set, range of result homophone symbols) returns a letter to homephone mapping
 
 encrypt(message, letter to homophones map) returns an array of all homophones
 
