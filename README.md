@@ -1,6 +1,8 @@
 # strip
 Snerx Strip Cipher (SSC)
 
+## Command Line Interface
+
 Make your key (range defaults to 394)
 `# node makeKey.js [range] > key`
 
