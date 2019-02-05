@@ -4,13 +4,25 @@ const decrypt = require('./lib/decrypt.js')
 
 // borrowed from https://stackoverflow.com/a/6940176
 function ArrNoDupe(a) {
-  var temp = {};
+  var temp = {}
   for (var i = 0; i < a.length; i++)
-    temp[a[i]] = true;
-  var r = [];
+    temp[a[i]] = true
+  var r = []
   for (var k in temp)
-    r.push(k);
-  return r;
+    r.push(k)
+  return r
+}
+
+// borrowed from https://stackoverflow.com/a/6274381
+function shuffle(a) {
+  var j, x, i
+  for (i = a.length - 1; i > 0; i--) {
+    j = Math.floor(Math.random() * (i + 1))
+    x = a[i]
+    a[i] = a[j]
+    a[j] = x
+  }
+  return a
 }
 
 // generate a set of homephones based on a range and charset
@@ -19,54 +31,59 @@ function charset2homophones(charset, max) {
     console.error('max is required')
     return {}
   }
-  if (max < rows) {
-    console.error('max(', max, ') needs to exceed unique characters (', charset.length, ')')
-    return {}
-  }
   noDupeCharset = ArrNoDupe(charset)
   var rows = noDupeCharset.length
-  var stdSlots = Math.floor(max / rows)
-  console.log('stdSlots', stdSlots, 'rows', rows, 'test', rows * stdSlots , '<', max)
-  if (max < rows * stdSlots) {
-    console.error('max(', max, ') needs to exceed unique characters (', charset.length, ')')
+  if (max < rows) {
+    console.error('max(', max, ') needs to exceed unique characters (', rows, ')')
     return {}
   }
-  var used = 0
-  var reduce_me = []
-  // assign a number of slots for each character in set
+
+  // total slots
+  var totalFreqSlots = 0
+  var slotMap = {}
   for(var i in noDupeCharset) {
     var l = noDupeCharset[i]
-    var freq = frequency[l]
-    // 1-13 => percentage
-    // 0/12 => percentage of average slot size
-    // lets say it's ass is 6, 3, 12
-    // 0 = 1,    0 = .5
-    // 6 = 7,    6 = 3.5
-    // 12 = 13, 12 = 7.5
-    // (freq + 1), (freq + 1) * (stdSlots / 6)
-    //var slots = Math.ceil(1 + ((freq / 12) * stdSlots))
-    var slots = Math.ceil((freq + 1) * (stdSlots / 3))
-    reduce_me.push([l, slots])
-    used += slots
-    console.log(l, 'should get', slots, 'freq', freq)
-  }
-  var i = 0
-  var last = 0
-  var l2h_map = {}
-  // enumerate each slot until all slots asked for are consumed
-  while(reduce_me.length) {
-    var l = reduce_me[i][0] // get character
-    if (l2h_map[l] === undefined) l2h_map[l] = []
-    l2h_map[l].push(last) // enumerate value
-    last++ // increase value
-    reduce_me[i][1]-- // mark slot as used
-    if (!reduce_me[i][1]) {
-      reduce_me.splice(i, 1) // mark character as all slots are consumed
+    var freq = frequency[l] + 1
+    for(var j = totalFreqSlots; j < totalFreqSlots + freq; j++) {
+      slotMap[j] = l
     }
-    i++ // go to next character
-    if (i >= reduce_me.length) i = 0 // if at end then start over at beginning
+    totalFreqSlots += freq
   }
-  console.log('used', last, '/', used, '/', max)
+
+  var l2h_map = {}
+  var last = 0
+
+  var allButOne = max - noDupeCharset.length
+  // random distribution
+  for(var i=0; i < allButOne; i++) {
+    var randSlot = Math.floor(Math.random() * totalFreqSlots)
+    var randLetter = slotMap[randSlot]
+    //if (randLetter === undefined) console.error('no slot at', randSlot, '/', totalFreqSlots)
+    if (l2h_map[randLetter] === undefined) l2h_map[randLetter] = []
+    l2h_map[randLetter].push(last) // enumerate value
+    last++
+  }
+
+  // make sure all letters get at least one assignment
+  var shuffledLetters = shuffle(noDupeCharset)
+  for(var i in shuffledLetters) {
+    var l = shuffledLetters[i]
+    if (l2h_map[l] === undefined) {
+      l2h_map[l] = [last] // enumerate value
+      last++
+    }
+  }
+
+  console.log('final round', last, '/', max)
+  // final round: random sprinkle
+  while(last < max) {
+    var randSlot = Math.floor(Math.random() * totalFreqSlots)
+    var randLetter = slotMap[randSlot]
+    l2h_map[randLetter].push(last) // enumerate value
+    last++
+  }
+
+  console.log('used', last, '/', max)
   return l2h_map
 }
 
@@ -172,6 +189,7 @@ var our_charset = [
 ]
 
 var homophones = charset2homophones(our_charset, 394)
+console.dir(homophones)
 var test = encrypt('The job requires extra pluck and zeal from every young wage earner. ', homophones)
 console.log(test)
 var result = decrypt(test, homophones)
