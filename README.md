@@ -11,7 +11,7 @@ Use the key to decode your message
 `# node decrypt.js key < msg`
 
 Use message and the plain text equivalent to try to reverse the key
-`# node bruteKey.js inputKey "This is my message" < msg > outputKey`
+`# node bruteKey.js inputKey "this is my message" < msg > outputKey`
 
 ## API
 
