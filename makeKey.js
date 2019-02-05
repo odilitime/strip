@@ -102,7 +102,9 @@ var our_charset = [
   '\t',
 ]
 
-var homophones = charset2homophones(language_frequency, our_charset, 394)
+var max = process.argv[2]
+if (max === undefined) max = 394
+var homophones = charset2homophones(language_frequency, our_charset, max)
 var keyFormat = {
   v: 1, // version number
   h: homophones, // charset to homophones map (includes charset, max (count of homophones) and all homophones)

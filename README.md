@@ -1,8 +1,8 @@
 # strip
 Snerx Strip Cipher (SSC)
 
-Make your key
-`# node makeKey.js > key`
+Make your key (range defaults to 394)
+`# node makeKey.js [range]> key`
 
 Use the key to encode your message
 `# node encrypt.js key "this is my messsage" > msg`
