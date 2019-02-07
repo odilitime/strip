@@ -1,9 +1,7 @@
 const language_frequency = require('./lib/frequency_en.js')
 const charset2homophones = require('./lib/generator.js')
-const encrypt            = require('./lib/encrypt.js')
-const decrypt            = require('./lib/decrypt.js')
 
-var our_charset          = [
+var our_charset = [
   'a',
   'b',
   'c',
@@ -104,9 +102,12 @@ var our_charset          = [
   '\t',
 ]
 
-var homophones = charset2homophones(language_frequency, our_charset, 394)
-console.dir(homophones)
-var test       = encrypt('The job requires extra pluck and zeal from every young wage earner. ', homophones)
-console.log(test)
-var result     = decrypt(test, homophones)
-console.log(result.join(""))
+var max = process.argv[2]
+if (max === undefined) max = 394
+var homophones = charset2homophones(language_frequency, our_charset, max)
+var keyFormat = {
+  v: 1, // version number
+  h: homophones, // charset to homophones map (includes charset, max (count of homophones) and all homophones)
+  c: 'strip',
+}
+console.log(JSON.stringify(keyFormat, null, 2))
