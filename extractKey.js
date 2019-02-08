@@ -1,4 +1,6 @@
 const fs      = require('fs')
+const extract = require('./lib/extract.js')
+
 // given partial or empty key, plain text and encrypted message
 // fill out more of the key
 
@@ -18,22 +20,9 @@ process.stdin.on('end', function() {
   //console.log('content', content)
   var message = JSON.parse(content)
   //console.log('message', message)
-  // loop for message, set homophones that aren't set
-  for(var i in string) {
-    var l = string[i]
-    var h = message[i]
-    if (homophones[l] === undefined) {
-      console.error('NEW Letter!', h, '=', l)
-      key.h[l] = [h]
-    } else {
-      var idx = homophones[l].indexOf(h)
-      if (idx == -1) {
-        console.error('NEW HomoPhone!', h, '=', l)
-        key.h[l].push(h)
-      }
-    }
-  }
-  // check for dupes
+
+  key.h = extract(string, message, homophones)
+
   // save updated keyfile
   var keyFormat = {
     v: 1, // version number
