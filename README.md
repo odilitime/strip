@@ -8,7 +8,7 @@ This makes a key with a range of 394, encrypts a string into a message, and decr
 ## Command Line Interface
 
 Make your key (range defaults to 394)
-`# node makeKey.js [range] > key`
+`# node makeKey.js [range] [languages/frequency_en.json] [languages/charset_en.json] > key`
 
 Use the key to encode your message
 `# node encrypt.js key "this is my message" > msg`
@@ -18,6 +18,9 @@ Use the key to decode your message
 
 Use message and the plain text equivalent to try to reverse the key
 `# node bruteKey.js inputKey "this is my message" < msg > outputKey`
+
+Tailor frequencies for specific plain text
+`# node adjustFrequnecy.js "Adjust the frequencies" < languages/frequency_en.json > frequency_custom.json`
 
 ## API
 

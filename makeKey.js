@@ -1,109 +1,20 @@
-const language_frequency = require('./lib/frequency_en.js')
 const charset2homophones = require('./lib/generator.js')
+const fs                 = require('fs')
 
-var our_charset = [
-  'a',
-  'b',
-  'c',
-  'd',
-  'e',
-  'f',
-  'g',
-  'h',
-  'i',
-  'j',
-  'k',
-  'l',
-  'm',
-  'n',
-  'o',
-  'p',
-  'q',
-  'r',
-  's',
-  't',
-  'u',
-  'v',
-  'w',
-  'x',
-  'y',
-  'z',
-  '[',
-  ']',
-  '\\',
-  ';',
-  '\'',
-  ',',
-  '.',
-  '/',
-  '`',
-  '1',
-  '2',
-  '3',
-  '4',
-  '5',
-  '6',
-  '7',
-  '8',
-  '9',
-  '0',
-  '-',
-  '=',
-  '§',
-  ' ',
-  'A',
-  'B',
-  'C',
-  'D',
-  'E',
-  'F',
-  'G',
-  'H',
-  'I',
-  'J',
-  'K',
-  'L',
-  'M',
-  'N',
-  'O',
-  'P',
-  'Q',
-  'R',
-  'S',
-  'T',
-  'U',
-  'V',
-  'W',
-  'X',
-  'Y',
-  'Z',
-  '{',
-  '}',
-  '|',
-  ':',
-  '"',
-  '<',
-  '>',
-  '?',
-  '~',
-  '!',
-  '@',
-  '#',
-  '$',
-  '%',
-  '^',
-  '&',
-  '*',
-  '(',
-  ')',
-  '_',
-  '+',
-  '\n',
-  '\t',
-]
+// strength
+var max            = process.argv[2]
+if (max          === undefined) max = 394
 
-var max = process.argv[2]
-if (max === undefined) max = 394
+// frequency
+var languageFile   = process.argv[3]
+if (languageFile === undefined) languageFile = 'languages/frequency_en.json'
+const language_frequency = JSON.parse(fs.readFileSync(languageFile))
+
+// actual subset
+var charsetFile    = process.argv[4]
+if (charsetFile  === undefined) charsetFile  = 'languages/charset_en.json'
+const our_charset        = JSON.parse(fs.readFileSync(charsetFile))
+
 var homophones = charset2homophones(language_frequency, our_charset, max)
 var keyFormat = {
   v: 1, // version number
