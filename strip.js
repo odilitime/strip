@@ -1,6 +1,7 @@
 const charset2homophones = require('./lib/generator.js')
 const encrypt            = require('./lib/encrypt.js')
 const decrypt            = require('./lib/decrypt.js')
+const fs                 = require('fs')
 
 // string
 var string         = process.argv[2]
