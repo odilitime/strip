@@ -2,8 +2,8 @@
 Snerx Strip Cipher (SSC)
 
 ## Play with it
-This makes a key with a range of 394, encrypts a string into a message, and decrypts that message back into a string
-`# node strip.js `
+This makes a key, encrypts a string into a message, and decrypts that message back into a string
+`# node strip.js ` (strip takes same params as makeKey)
 
 ## Command Line Interface
 
