@@ -26,6 +26,10 @@ Tailor frequencies for specific plain text
 
 charset2homophones(frequency set, character set, range of result homophone symbols) returns a letter to homephone mapping
 
-encrypt(message, letter to homophones map) returns an array of all homophones
+encrypt(plaintext, letter to homophones map) returns an array of all homophones
 
-decrypt(message, letter to homophones map) decodes homophones back into original message
+decrypt(cipher, letter to homophones map) decodes homophones back into original message
+
+extractHomophones(plaintext, cipher, frequency set) return updated frequency set
+
+adjustFrequency(frequency set, plaintext, scale) return updated frequency set
