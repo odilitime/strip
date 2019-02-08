@@ -6,8 +6,8 @@ var key        = JSON.parse(fs.readFileSync(keyFile))
 var homophones = key.h
 //console.dir(homophones)
 
-var content = '';
-process.stdin.resume();
+var content = ''
+process.stdin.resume()
 process.stdin.on('data', function(buf) { content += buf.toString() })
 process.stdin.on('end', function() {
   //console.log('content', content)
@@ -15,5 +15,5 @@ process.stdin.on('end', function() {
   //console.log('message', message)
   var result = decrypt(message, homophones)
   console.log(result.join(""))
-});
+})
 
