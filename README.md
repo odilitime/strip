@@ -1,5 +1,6 @@
 # Snerx Strip Cipher (SSC)
 Webend viewable here - https://snerx.com/SSC/
+This is the code implimentation of the modified strip cipher from here - https://docs.google.com/spreadsheets/d/1O_KBJoCWQsLkmNv3VTzn41yg-RPXI7LdvSBxUnLTmiQ/
 
 ## Play with it
 This makes a key, encrypts a string into a message, and decrypts that message back into a string
