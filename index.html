@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<title>Snerx Strip Cipher</title>
+<!--
+
+-->
+<script src="lib/generator.js"></script>
+<script src="lib/encrypt.js"></script>
+<script src="lib/decrypt.js"></script>
+<script src="lib/extract.js"></script>
+<script src="lib/adjust.js"></script>
+
+<style>
+body,td,th,form {
+	font-family: "Lucida Console", Monaco, monospace;
+    color: #717171;
+    margin: 0;
+    margin-top: 10px;
+    text-align: center;
+    font-size: 12px;
+    background-color: #363636;
+}
+a:link {
+	color: #7e5a5a;
+	text-decoration: none;
+}
+a:visited {
+	color: #7e5a5a;
+	text-decoration: none;
+}
+a:hover {
+	color: #905050;
+	text-decoration: none;
+}
+a:active {
+	color: #7e5a5a;
+	text-decoration: none;
+}
+.title {
+    color: #fcca9d;
+    font-family: sans-serif;
+    font-size: 46px;
+    text-transform: uppercase;
+    font-weight: 700;
+    text-shadow: 0px 2px 2px #000000;-->
+    display: inline-block;
+    margin-top: 2px;
+}
+.subtitle {
+    color: #999999;
+    font-family: sans-serif;
+    font-size: 20px;
+    margin-top: 2px;
+    margin-bottom: 8px;
+}
+.guidetext {
+    color: #262626;
+    font-family: sans-serif;
+    font-size: 12px;
+    margin-top: 4px;
+    margin-bottom: 32px;
+}
+input[type="number"] {
+    border: none;
+    font-family: "Lucida Console", Monaco, monospace;
+    background-color: #2f2f2f;
+    color: #fcca9d;
+    padding: 2px;
+    border-radius: 0px;
+    box-shadow: 0 0 0 1px #2f2f2f;
+    font-size: 12px;
+    font-weight: bold;
+    /* cursor: pointer; */
+    margin: 0px;
+    width: 50px;
+}
+input[type="button"] {
+    border: none;
+    font-family: sans-serif;
+    /* font-family: "Lucida Console", Monaco, monospace; */
+    background-color: #905050;
+    color: #fcca9d;
+    padding: 4px;
+    border-radius: 6px;
+    box-shadow: 0 0 0 0px #2f2f2f;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 3px;
+}
+textarea {
+    color: #8c8c8c;
+    font-size: 12px;
+    font-family: "Lucida Console", Monaco, monospace;/*sans-serif; */
+    /* display: block; */
+    padding: 6px;
+    /* border-radius: 20px; */
+    margin: 16px auto;
+    background-color: #363636;/* #2f2f2f */
+    border: none;
+    box-shadow: 0 0 0 4px #2d2d2d;/* #252525 */
+    /* min-width: 629px; */
+    /* max-width: 400px; */
+    width: 90%;
+    /* width: 400px; */
+    height: 128px;
+}
+textarea.small {
+    /* width: 128px; */
+}
+.fl {
+    width: 375px;
+    float: left;
+}
+</style>
+</head>
+
+<body>
+    <div class="title">Snerx Strip Cipher</div>
+    <div class="subtitle">freq-analysis immune version of the spanish strip cipher</div>
+    <div class="guidetext">The sourcecode can be found <a href="https://github.com/odilitime/strip" target="_blank">here</a>.</div>
+    <form>
+        <div class="fl">
+            <br>Key<br>
+            <textarea id="key" class="small">{
+        "v": 1,
+        "h": {
+        "§": [
+          0
+        ]
+        },
+        "c": "strip"
+}</textarea><br>
+            Homophones:
+            <input id="max" value=394 type="number">
+            <input id="genKey" value="Generate" type="button">
+            <input id="resetKey" value="Reset" type="button">
+            <input id="revKey" value="Reverse" type="button">
+            <!-- <button id="genKey">Generate</button>
+            <button id="resetKey">Reset</button>
+            <button id="revKey">Reverse</button> -->
+        </div>
+        <div class="fl">
+            <br>Character Set<br>
+            <textarea id="charSet" class="small"></textarea><br>
+            <input id="resetCS" value="Reset Character Set" type="button">
+            <input id="clearCS" value="Clear Character Set" type="button">
+            <!-- <button id="resetCS">Reset Character Set</button>
+            <button id="clearCS">Clear Character Set</button><br> -->
+        </div>
+        <div class="fl">
+            <br>Character Frequency Set<Br>
+            <textarea id="freqSet" class="small"></textarea><br>
+            <input id="resetKSF" value="Reset Character Frequency" type="button">
+            <input id="clearKSF" value="Clear Character Frequency" type="button">
+            <!-- <button id="resetKSF">Reset Character Frequency</button>
+            <button id="clearKSF">Clear Character Frequency</button><br> -->
+        </div>
+        <div class="fl">
+            <br>Plaintext<br>
+            <textarea id="plaintext">SSC is a modified strip cipher immune to frequency-analysis; it is impossible to break so long as the plaintext is shorter than 394 times the length of the keyset and there are no plaintext attacks.</textarea><br>
+            <input id="pt2c" value="Cipher" type="button">
+            <input id="resetPt" value="Clear" type="button"><br>
+            <!-- <button id="pt2c">Cipher Plaintext</button>
+            <button id="resetPt">Reset Plaintext</button><br> -->
+            Scale:
+            <input id="scale" value=12 type="number">
+            <input id="adjustFreq" value="Adjust Frequencies" type="button"><br>
+            <input id="extractCharSet" value="Extract CharSet From Current Plaintext" type="button">
+            <!-- <button id="adjustFreq">Adjust Frequencies</button>
+            <button id="extractCharSet">Extract CharSet from current plaintext</button><br> -->
+        </div>
+        <div class="fl">
+            <br>Strip Ciphertext<br>
+            <textarea id="cipher">[]</textarea><br>
+            <input id="c2pt" value="Decipher" type="button">
+            <!-- <button id="c2pt">Decipher</button> -->
+        </div>
+        <br clear="both">
+
+    </form>
+    <script>
+        var language_frequency = {
+            "a": 8,"b": 2,"c": 3,"d": 4,"e": 12,"f": 2,"g": 2,"h": 6,"i": 7,"j": 0,"k": 1,"l": 4,"m": 3,"n": 7,"o": 8,"p": 2,"q": 0,"r": 6,"s": 6,"t": 9,"u": 3,"v": 1,"w": 2,"x":0,"y": 2,"z": 0,"[": 0,"]": 0,"\\": 0,";": 0,"'": 0,",": 4,".": 4,"/": 1,"`": 0,"1": 0,"2": 0,"3": 0,"4": 0,"5": 0,"6": 0,"7": 0,"8": 0,"9": 0,"0": 0,"-": 1,"=":0,"§": 3," ": 12,"A": 3,"B": 1,"C": 1,"D": 0,"E": 0,"F": 1,"G": 0,"H": 2,"I": 0,"J": 0,"K": 0,"L": 1,"M": 0,"N": 2,"O": 1,"P": 0,"Q": 0,"R": 1,"S": 3,"T": 0,"U":0,"V": 1,"W": 0,"X": 0,"Y": 0,"Z": 0,"{": 1,"}": 1,"|": 0,":": 0,"\"": 1,"<": 0,">": 0,"?": 0,"~": 0,"!": 0,"@": 0,"#": 0,"$": 0,"%": 0,"^": 0,"&": 0,"*": 0,"(":1,")": 1,"_": 1,"+": 0,"\n": 3,"\t": 1
+        }
+        /*
+        fetch('languages/frequency_en.json').then(function(res) {
+          console.log('language_frequency', res)
+          language_frequency = res
+        })
+        */
+        var our_charset = [
+            "a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","[","]","\\",";","'",",",".","/","`","1","2","3","4","5","6","7","8","9","0","-","=","§"," ","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","{","}","|",":","\"","<",">","?","~","!","@","#","$","%","^","&","*","(",")","_","+","\n","\t"
+        ]
+
+        function updateSymbolSet(inSet) {
+            var charSetElem = document.getElementById('charSet')
+            charSetElem.value = JSON.stringify(inSet, null, 2)
+        }
+
+        function updateFreqSet(inSet) {
+            var freqSetElem = document.getElementById('freqSet')
+            freqSetElem.value = JSON.stringify(inSet, null, 2)
+        }
+
+        updateSymbolSet(our_charset)
+        updateFreqSet(language_frequency)
+
+        var resetCSBut = document.getElementById('resetCS')
+        resetCSBut.onclick = function() {
+            updateSymbolSet(our_charset)
+            return false
+        }
+        var clearCSBut = document.getElementById('clearCS')
+        clearCSBut.onclick = function() {
+            updateSymbolSet([])
+            return false
+        }
+
+        var resetKSFBut = document.getElementById('resetKSF')
+        resetKSFBut.onclick = function() {
+            updateFreqSet(language_frequency)
+            return false
+        }
+        var clearKSFBut = document.getElementById('clearKSF')
+        clearKSFBut.onclick = function() {
+            updateFreqSet([])
+            return false
+        }
+
+
+        function updateKey(homophones, keyElem) {
+            var keyFormat = {
+                v: 1, // version number
+                h: homophones, // charset to homophones map (includes charset, max (count of homophones) and all homophones)
+                c: 'strip',
+            }
+            keyElem.value = JSON.stringify(keyFormat, null, 2)
+        }
+
+        var clearKeyBut = document.getElementById('resetKey')
+        clearKeyBut.onclick = function() {
+            var keyElem = document.getElementById('key')
+            updateKey({
+                "§": [0]
+            }, keyElem)
+            return false
+        }
+        var resetPtBut = document.getElementById('resetPt')
+        resetPtBut.onclick = function() {
+            var plaintextElem = document.getElementById('plaintext')
+            plaintextElem.value = ''
+            return false
+        }
+        var genKeyBut = document.getElementById('genKey')
+        genKeyBut.onclick = function() {
+            var keyElem = document.getElementById('key')
+            var maxElem = document.getElementById('max')
+            var freqElem = document.getElementById('freqSet')
+            var freq = JSON.parse(freqElem.value)
+            var charElem = document.getElementById('charSet')
+            var charSet = JSON.parse(charElem.value)
+            var homophones = charset2homophones(freq, charSet, maxElem.value)
+            updateKey(homophones, keyElem)
+            return false
+        }
+        var pt2cBut = document.getElementById('pt2c')
+        pt2cBut.onclick = function() {
+            var keyElem = document.getElementById('key')
+            var key = JSON.parse(keyElem.value)
+            var inputElem = document.getElementById('plaintext')
+            var outputElem = document.getElementById('cipher')
+            outputElem.value = JSON.stringify(encrypt(inputElem.value, key.h))
+            return false
+        }
+        var c2ptBut = document.getElementById('c2pt')
+        c2ptBut.onclick = function() {
+            var keyElem = document.getElementById('key')
+            var key = JSON.parse(keyElem.value)
+
+            var inputElem = document.getElementById('cipher')
+            var cipher = JSON.parse(inputElem.value)
+            //console.log('cipher', cipher)
+
+            var outputElem = document.getElementById('plaintext')
+
+            var plaintext = decrypt(cipher, key.h)
+            //console.log('plaintext', plaintext)
+            //console.log('plaintext2', plaintext.join(""))
+            outputElem.value = plaintext.join("")
+            return false
+        }
+        var revKeyBut = document.getElementById('revKey')
+        revKeyBut.onclick = function() {
+            var cipherElem = document.getElementById('cipher')
+            var cipher = JSON.parse(cipherElem.value)
+            var plaintextElem = document.getElementById('plaintext')
+            var plaintext = plaintextElem.value
+
+            var keyElem = document.getElementById('key')
+            var key = JSON.parse(keyElem.value)
+            if (key.h['§'] && key.h['§'][0] == 0) {
+                console.log('removing reset key to a blank key')
+                key.h = {}
+            }
+
+            var homophones = extractHomophones(plaintext, cipher, key.h)
+            //console.log('homophones', homophones)
+            updateKey(homophones, keyElem)
+            return false
+        }
+        var adjustFreqBut = document.getElementById('adjustFreq')
+        adjustFreqBut.onclick = function() {
+            var plaintextElem = document.getElementById('plaintext')
+            var plaintext = plaintextElem.value
+            var scaleElem = document.getElementById('scale')
+            var freqElem = document.getElementById('freqSet')
+            var freq = JSON.parse(freqElem.value)
+            var nFreq = adjustFrequency(freq, plaintext, scaleElem.value)
+            updateFreqSet(nFreq)
+            return false
+        }
+
+        var extractCharSetBut = document.getElementById('extractCharSet')
+        extractCharSetBut.onclick = function() {
+            var plaintextElem = document.getElementById('plaintext')
+            var plaintext = plaintextElem.value
+            var charSet = []
+            for (var i in plaintext) {
+                var idx = charSet.indexOf(plaintext[i])
+                if (idx == -1) {
+                    charSet.push(plaintext[i])
+                }
+            }
+            updateSymbolSet(charSet)
+            return false
+        }
+    </script>
+</body>
+
+</html>
