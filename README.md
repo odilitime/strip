@@ -1,5 +1,5 @@
-# strip
-Snerx Strip Cipher (SSC)
+# Snerx Strip Cipher (SSC)
+Webend viewable here - https://snerx.com/SSC/
 
 ## Play with it
 This makes a key, encrypts a string into a message, and decrypts that message back into a string
