@@ -2,7 +2,7 @@
 <html><head><meta charset="UTF-8">
 <title>Snerx Strip Cipher</title>
 <!--
-
+Uploaded on 2019/2/8 :: Version 1.0.1 updated on 2019/2/9
 -->
 <script src="lib/generator.js"></script>
 <script src="lib/encrypt.js"></script>
@@ -12,7 +12,7 @@
 
 <style>
 body,td,th,form {
-	font-family: "Lucida Console", Monaco, monospace;
+    font-family: "Lucida Console", Monaco, monospace;
     color: #717171;
     margin: 0;
     margin-top: 10px;
@@ -21,20 +21,20 @@ body,td,th,form {
     background-color: #363636;
 }
 a:link {
-	color: #7e5a5a;
-	text-decoration: none;
+    color: #7e5a5a;
+    text-decoration: none;
 }
 a:visited {
-	color: #7e5a5a;
-	text-decoration: none;
+    color: #7e5a5a;
+    text-decoration: none;
 }
 a:hover {
-	color: #905050;
-	text-decoration: none;
+    color: #905050;
+    text-decoration: none;
 }
 a:active {
-	color: #7e5a5a;
-	text-decoration: none;
+    color: #7e5a5a;
+    text-decoration: none;
 }
 .title {
     color: #fcca9d;
@@ -118,7 +118,7 @@ textarea.small {
 <body>
     <div class="title">Snerx Strip Cipher</div>
     <div class="subtitle">freq-analysis immune version of the spanish strip cipher</div>
-    <div class="guidetext">The sourcecode can be found <a href="https://github.com/odilitime/strip" target="_blank">here</a>.</div>
+    <div class="guidetext">The <a href="https://github.com/odilitime/strip" target="_blank">sourcecode</a> and <a href="https://docs.google.com/spreadsheets/d/1O_KBJoCWQsLkmNv3VTzn41yg-RPXI7LdvSBxUnLTmiQ/" target="_blank">outline</a>.</div>
     <form>
         <div class="fl">
             <br>Key<br>
@@ -144,31 +144,31 @@ textarea.small {
             <br>Character Set<br>
             <textarea id="charSet" class="small"></textarea><br>
             <input id="resetCS" value="Reset Character Set" type="button">
-            <input id="clearCS" value="Clear Character Set" type="button">
+            <input id="clearCS" value="Clear Character Set" type="button"><br>
+            <input id="extractCharSet" value="Extract CharSet From Current Plaintext" type="button">
             <!-- <button id="resetCS">Reset Character Set</button>
-            <button id="clearCS">Clear Character Set</button><br> -->
+            <button id="clearCS">Clear Character Set</button><br
+            <button id="extractCharSet">Extract CharSet from current plaintext</button><br> -->
         </div>
         <div class="fl">
             <br>Character Frequency Set<Br>
             <textarea id="freqSet" class="small"></textarea><br>
             <input id="resetKSF" value="Reset Character Frequency" type="button">
-            <input id="clearKSF" value="Clear Character Frequency" type="button">
+            <input id="clearKSF" value="Clear Character Frequency" type="button"><br>
+            Scale:
+            <input id="scale" value=12 type="number">
+            <input id="adjustFreq" value="Adjust Frequencies" type="button">
             <!-- <button id="resetKSF">Reset Character Frequency</button>
-            <button id="clearKSF">Clear Character Frequency</button><br> -->
+            <button id="clearKSF">Clear Character Frequency</button><br>
+            <button id="adjustFreq">Adjust Frequencies</button> -->
         </div>
         <div class="fl">
             <br>Plaintext<br>
-            <textarea id="plaintext">SSC is a modified strip cipher immune to frequency-analysis; it is impossible to break so long as the plaintext is shorter than 394 times the length of the keyset and there are no plaintext attacks.</textarea><br>
+            <textarea id="plaintext">SSC is a modified strip cipher immune to frequency-analysis; it should be impossible to break so long as the plaintext is shorter than N times the length of the keyset where N is the number of homophones used and there are no plaintext attacks.</textarea><br>
             <input id="pt2c" value="Cipher" type="button">
             <input id="resetPt" value="Clear" type="button"><br>
             <!-- <button id="pt2c">Cipher Plaintext</button>
             <button id="resetPt">Reset Plaintext</button><br> -->
-            Scale:
-            <input id="scale" value=12 type="number">
-            <input id="adjustFreq" value="Adjust Frequencies" type="button"><br>
-            <input id="extractCharSet" value="Extract CharSet From Current Plaintext" type="button">
-            <!-- <button id="adjustFreq">Adjust Frequencies</button>
-            <button id="extractCharSet">Extract CharSet from current plaintext</button><br> -->
         </div>
         <div class="fl">
             <br>Strip Ciphertext<br>
