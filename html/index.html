@@ -35,7 +35,8 @@
 }</textarea><br>
       <button id="resetKey">Reset Key</button><br>
       Homophones
-      <input id="max" value=394>
+      <input id="max" value=394 size=5>
+      <input id="secret" value="" placeholder="deterministic secret phrase">
       <button id="genKey">Generate Key</button><br>
       <button id="revKey">Reverse Key</button><br>
     </div>
@@ -344,8 +345,17 @@ genKeyBut.onclick = function() {
   var freq      = JSON.parse(freqElem.value)
   var charElem  = document.getElementById('charSet')
   var charSet   = JSON.parse(charElem.value)
-  var homophones = charset2homophones(freq, charSet, maxElem.value)
-  updateKey(homophones, keyElem)
+
+  var secretElem  = document.getElementById('secret')
+  var homophones
+  if (secretElem.value) {
+    charset2homophonesSecretHand(freq, charSet, maxElem.value, secretElem.value, function(homophones) {
+      updateKey(homophones, keyElem)
+    })
+  } else {
+    homophones = charset2homophones(freq, charSet, maxElem.value)
+    updateKey(homophones, keyElem)
+  }
   return false
 }
 var pt2cBut = document.getElementById('pt2c')
