@@ -349,7 +349,8 @@ genKeyBut.onclick = function() {
   var secretElem  = document.getElementById('secret')
   var homophones
   if (secretElem.value) {
-    charset2homophonesSecretHand(freq, charSet, maxElem.value, secretElem.value, function(homophones) {
+    charset2homophonesSecretSeed(freq, charSet, maxElem.value, secretElem.value, function(homophones) {
+      console.log('homophones', homophones)
       updateKey(homophones, keyElem)
     })
   } else {
