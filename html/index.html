@@ -12,7 +12,7 @@
         height: 75%;
       }
       textarea.small {
-        width: 100px;
+        width: 200px;
       }
       .fl {
         width: 33%;
@@ -39,6 +39,7 @@
       <input id="secret" value="" placeholder="deterministic secret phrase">
       <button id="genKey">Generate Key</button><br>
       <button id="revKey">Reverse Key</button><br>
+      <button id="analyzeKey">Score Key</button><br>
     </div>
 
     <div class="fl">
@@ -349,8 +350,7 @@ genKeyBut.onclick = function() {
   var secretElem  = document.getElementById('secret')
   var homophones
   if (secretElem.value) {
-    charset2homophonesSecretSeed(freq, charSet, maxElem.value, secretElem.value, function(homophones) {
-      console.log('homophones', homophones)
+    charset2homophonesSecretOneToOne(freq, charSet, maxElem.value, secretElem.value, function(homophones) {
       updateKey(homophones, keyElem)
     })
   } else {
@@ -402,6 +402,37 @@ revKeyBut.onclick = function() {
   var homophones   = extractHomophones(plaintext, cipher, key.h)
   //console.log('homophones', homophones)
   updateKey(homophones, keyElem)
+  return false
+}
+var analyzeKeyBut = document.getElementById('analyzeKey')
+analyzeKeyBut.onclick = function() {
+  var keyElem      = document.getElementById('key')
+  var key          = JSON.parse(keyElem.value)
+  // console.log('key', key.h)
+  var maxHomophones = 0
+  var ttl = 0, symbols = 0
+  for(slot in key.h) {
+    var phones = key.h[slot]
+    // console.log('homophone', slot, phones.length)
+    if (!phones.length) alert('Key contains error')
+    ttl += phones.length
+    maxHomophones = Math.max(maxHomophones, phones.length)
+    symbols++
+  }
+  var avg = ttl / symbols
+  var perMax = 0, perMin = 99
+  for(slot in key.h) {
+    var phones = key.h[slot]
+    var per = phones.length / ttl
+    perMax = Math.max(per, perMax)
+    perMin = Math.min(per, perMin)
+    // console.log('homophone', slot, per * 100 + '%')
+  }
+  console.log('symbol with the most homephones', perMax * 100 + '%')
+  console.log('homephones range across slots', (perMax - perMin)  * 100 + '%')
+  console.log('homophone per symbol distribution average', avg, 'homophones per sybmol')
+  var score = 1/perMax + 1/avg
+  alert("Your score: "+score)
   return false
 }
 var adjustFreqBut = document.getElementById('adjustFreq')
